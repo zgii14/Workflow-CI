@@ -19,8 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        with: { fetch-depth: 0 }
 
       - name: Set up Python 3.12.7
         uses: actions/setup-python@v5
@@ -30,42 +29,39 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip "pip<=25.2"
-          pip install mlflow==2.19.0 cloudpickle==3.1.1 numpy==2.3.4 \
-                     pandas==2.3.3 pyarrow==18.1.0 scikit-learn==1.7.2 \
-                     scipy==1.16.3 matplotlib
+          pip install mlflow==2.19.0 scikit-learn==1.7.2 pandas==2.3.3 numpy==2.3.4 matplotlib
 
-      - name: Run MLflow project
+      - name: Run MLflow project (with params)
+        env:
+          MLFLOW_TRACKING_URI: file:./mlruns
         run: |
           mlflow run . --env-manager=local -e train \
             -P test_size=0.2 -P n_estimators=150 -P max_depth=6 \
             -P data_dir=heart_preprocessing
 
-      # (opsional) Upload sebagai artifact juga
       - name: Upload mlruns as artifact
+        if: ${{ hashFiles('MLProject/mlruns/**') != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: mlruns
           path: mlruns
 
-      # Commit & push folder mlruns/ ke branch
       - name: Save mlruns to repo
+        if: ${{ hashFiles('MLProject/mlruns/**') != '' }}
         env:
-          GIT_AUTHOR_NAME: ${{ secrets.username }}
-          GIT_AUTHOR_EMAIL: ${{ secrets.email }}
-          GIT_COMMITTER_NAME: ${{ secrets.username }}
-          GIT_COMMITTER_EMAIL: ${{ secrets.email }}
+          GIT_AUTHOR_NAME: ${{ secrets.username || github.actor }}
+          GIT_AUTHOR_EMAIL: ${{ secrets.email   || format('{0}@users.noreply.github.com', github.actor) }}
+          GIT_COMMITTER_NAME: ${{ secrets.username || github.actor }}
+          GIT_COMMITTER_EMAIL: ${{ secrets.email   || format('{0}@users.noreply.github.com', github.actor) }}
         run: |
-          if [ -d "mlruns" ]; then
-            git config user.name  "${{ secrets.username }}"
-            git config user.email "${{ secrets.email }}"
-            git pull --rebase origin master || true
-            git add mlruns/
-            if ! git diff --staged --quiet; then
-              git commit -m "Save mlruns from CI run"
-              git push origin HEAD:master
-            else
-              echo "No changes in mlruns to commit."
-            fi
+          TARGET_BRANCH="${{ github.ref_name }}"
+          git config user.name  "${GIT_AUTHOR_NAME}"
+          git config user.email "${GIT_AUTHOR_EMAIL}"
+          git pull --rebase origin "$TARGET_BRANCH" || true
+          git add mlruns/
+          if ! git diff --staged --quiet; then
+            git commit -m "CI: save mlruns from workflow run"
+            git push origin HEAD:"$TARGET_BRANCH"
           else
-            echo "mlruns folder not found."
+            echo "No changes in mlruns to commit."
           fi
