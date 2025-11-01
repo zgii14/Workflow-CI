@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 
 def run_autolog(test_size, n_estimators, max_depth, data_dir):
     mlflow.set_tracking_uri("file:./mlruns")  # aman di CI
-    mlflow.set_experiment("Latihan Credit Scoring (Kriteria 2 — Basic)")
+    mlflow.set_experiment("Latihan Credit Scoring (Kriteria 3)")
 
     data = pd.read_csv(os.path.join(data_dir, "heart_preprocessed.csv"))
     X_train, X_test, y_train, y_test = train_test_split(
