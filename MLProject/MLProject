@@ -4,10 +4,10 @@ conda_env: conda.yaml
 entry_points:
   train:
     parameters:
-      test_size: {type: float, default: 0.2}
-      n_estimators: {type: int, default: 100}
-      max_depth: {type: int, default: 5}
-      data_dir: {type: str, default: "heart_preprocessing"}
+      test_size:   {type: float, default: 0.2}
+      n_estimators:{type: int,   default: 100}
+      max_depth:   {type: int,   default: 5}
+      data_dir:    {type: str,   default: "heart_preprocessing"}
     command: >
       python modelling.py
       --test_size {test_size}
