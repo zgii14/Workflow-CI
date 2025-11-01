@@ -1,0 +1,21 @@
+digest: dbd03f81
+name: dataset
+profile: '{"num_rows": 241, "num_elements": 4579}'
+schema: '{"mlflow_colspec": [{"type": "double", "name": "Age_scaled", "required":
+  true}, {"type": "double", "name": "RestingBloodPressure_scaled", "required": true},
+  {"type": "double", "name": "Cholesterol_scaled", "required": true}, {"type": "double",
+  "name": "MaxHeartRate_scaled", "required": true}, {"type": "double", "name": "OldPeak_scaled",
+  "required": true}, {"type": "double", "name": "nMajorVessels_scaled", "required":
+  true}, {"type": "boolean", "name": "Sex_1", "required": true}, {"type": "boolean",
+  "name": "ChestPain_1", "required": true}, {"type": "boolean", "name": "ChestPain_2",
+  "required": true}, {"type": "boolean", "name": "ChestPain_3", "required": true},
+  {"type": "boolean", "name": "FastingBloodSugar_1", "required": true}, {"type": "boolean",
+  "name": "RestingECG_1", "required": true}, {"type": "boolean", "name": "RestingECG_2",
+  "required": true}, {"type": "boolean", "name": "ExcerciseAngina_1", "required":
+  true}, {"type": "boolean", "name": "STSlope_1", "required": true}, {"type": "boolean",
+  "name": "STSlope_2", "required": true}, {"type": "boolean", "name": "Thalium_1",
+  "required": true}, {"type": "boolean", "name": "Thalium_2", "required": true}, {"type":
+  "boolean", "name": "Thalium_3", "required": true}]}'
+source: '{"tags": {"mlflow.user": "runner", "mlflow.source.name": "modelling.py",
+  "mlflow.source.type": "LOCAL", "mlflow.source.git.commit": "66fbbc54500f43a9099f4956987810e76a3c1ee3"}}'
+source_type: code
