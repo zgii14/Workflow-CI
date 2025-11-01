@@ -36,9 +36,11 @@ jobs:
             scipy==1.16.3 \
             matplotlib
 
-      - name: Run MLflow Project (local env)
+      - name: Run MLflow project (with params)
         run: |
-          mlflow run . --env-manager=local -e train
+          mlflow run . --env-manager=local -e train \
+            -P test_size=0.2 -P n_estimators=150 -P max_depth=6 \
+            -P data_dir=heart_preprocessing
 
       - name: Upload mlruns as artifact
         uses: actions/upload-artifact@v4
