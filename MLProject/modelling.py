@@ -1,29 +1,36 @@
-
-import argparse, os
+import os
+import argparse
 import mlflow
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
 def run_autolog(test_size, n_estimators, max_depth, data_dir):
-    mlflow.set_tracking_uri("file:./mlruns")  # aman di CI
-    mlflow.set_experiment("Latihan Credit Scoring (Kriteria 2 — Basic)")
+    # Simpan ke file store lokal; aman dipakai di runner CI
+    mlflow.set_tracking_uri("file:./mlruns")
 
-    data = pd.read_csv(os.path.join(data_dir, "heart_preprocessed.csv"))
+    data_path = os.path.join(data_dir, "heart_preprocessed.csv")
+    df = pd.read_csv(data_path)
+
     X_train, X_test, y_train, y_test = train_test_split(
-        data.drop("Status", axis=1), data["Status"],
-        test_size=test_size, random_state=42
+        df.drop("Status", axis=1),
+        df["Status"],
+        test_size=test_size,
+        random_state=42,
+        stratify=df["Status"]
     )
 
-    with mlflow.start_run():
-        mlflow.autolog()
-        model = RandomForestClassifier(
-            n_estimators=n_estimators, max_depth=max_depth, random_state=42
-        )
-        model.fit(X_train, y_train)
-        accuracy = model.score(X_test, y_test)
-        print("Model Basic (Autolog Only) Selesai.")
-        print(f"Akurasi: {accuracy:.4f}")
+    mlflow.autolog()
+    model = RandomForestClassifier(
+        n_estimators=n_estimators,
+        max_depth=max_depth,
+        random_state=42
+    )
+    model.fit(X_train, y_train)
+    acc = model.score(X_test, y_test)
+
+    print("Model Basic (Autolog Only) Selesai.")
+    print(f"Akurasi: {acc:.4f}")
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
