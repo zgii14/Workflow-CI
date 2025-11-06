@@ -65,11 +65,12 @@ jobs:
             -P data_dir=heart_preprocessing
 
       # 7) Ambil run_id terbaru
+      # Get latest run_id
       - name: Get latest MLflow run_id
         run: |
           RUN_ID=$(ls -td mlruns/0/*/ | head -n 1 | cut -d'/' -f3)
-          echo "Latest RUN_ID: $RUN_ID"
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+          echo "Latest run_id: $RUN_ID"
 
       # 8) Install Python dependencies (step dummy biar mirip contoh)
       - name: Install Python dependencies
