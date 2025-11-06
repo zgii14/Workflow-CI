@@ -1,0 +1,15 @@
+artifact_uri: file:///home/runner/work/Workflow-CI/Workflow-CI/MLProject/mlruns/0/61c466283cfb4c549ca7d7ad225d81ea/artifacts
+end_time: 1762403632848
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 61c466283cfb4c549ca7d7ad225d81ea
+run_name: traveling-lynx-154
+run_uuid: 61c466283cfb4c549ca7d7ad225d81ea
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1762403624911
+status: 3
+tags: []
+user_id: runner

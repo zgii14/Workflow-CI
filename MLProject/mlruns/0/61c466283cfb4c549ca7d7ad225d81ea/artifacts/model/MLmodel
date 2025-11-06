@@ -1,0 +1,38 @@
+artifact_path: model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.7
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+mlflow_version: 2.19.0
+model_size_bytes: 747267
+model_uuid: c0fe72aec6ec490b8dabf5df1353492d
+run_id: 61c466283cfb4c549ca7d7ad225d81ea
+signature:
+  inputs: '[{"type": "double", "name": "Age_scaled", "required": true}, {"type": "double",
+    "name": "RestingBloodPressure_scaled", "required": true}, {"type": "double", "name":
+    "Cholesterol_scaled", "required": true}, {"type": "double", "name": "MaxHeartRate_scaled",
+    "required": true}, {"type": "double", "name": "OldPeak_scaled", "required": true},
+    {"type": "double", "name": "nMajorVessels_scaled", "required": true}, {"type":
+    "boolean", "name": "Sex_1", "required": true}, {"type": "boolean", "name": "ChestPain_1",
+    "required": true}, {"type": "boolean", "name": "ChestPain_2", "required": true},
+    {"type": "boolean", "name": "ChestPain_3", "required": true}, {"type": "boolean",
+    "name": "FastingBloodSugar_1", "required": true}, {"type": "boolean", "name":
+    "RestingECG_1", "required": true}, {"type": "boolean", "name": "RestingECG_2",
+    "required": true}, {"type": "boolean", "name": "ExcerciseAngina_1", "required":
+    true}, {"type": "boolean", "name": "STSlope_1", "required": true}, {"type": "boolean",
+    "name": "STSlope_2", "required": true}, {"type": "boolean", "name": "Thalium_1",
+    "required": true}, {"type": "boolean", "name": "Thalium_2", "required": true},
+    {"type": "boolean", "name": "Thalium_3", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+utc_time_created: '2025-11-06 04:33:49.076284'
