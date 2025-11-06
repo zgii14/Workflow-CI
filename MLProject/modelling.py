@@ -6,8 +6,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
 def run_autolog(test_size, n_estimators, max_depth, data_dir):
-    # Simpan ke file store lokal; aman dipakai di runner CI
-    mlflow.set_tracking_uri("file:./mlruns")
+    uri = os.getenv("MLFLOW_TRACKING_URI", "file:./mlruns")
+    mlflow.set_tracking_uri(uri)
 
     data_path = os.path.join(data_dir, "heart_preprocessed.csv")
     df = pd.read_csv(data_path)
