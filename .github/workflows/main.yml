@@ -107,7 +107,8 @@ jobs:
         run: |
           mlflow models build-docker \
             --model-uri "runs:/$RUN_ID/model" \
-            --name "cc"
+            --name "cc" \
+            --env-manager local
 
       # 11) Login ke Docker Hub (pakai secrets)
       - name: Log in to Docker Hub
