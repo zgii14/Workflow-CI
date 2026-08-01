@@ -102,7 +102,30 @@ jobs:
           name: mlruns
           path: mlruns
 
+      # 9b) Patch template Dockerfile bawaan MLflow 2.19.
+      #     Jalur ubuntu:20.04 milik MLflow install python3.9 lalu ambil
+      #     bootstrap.pypa.io/get-pip.py, yang sekarang menolak Python < 3.10.
+      #     Arahkan ke URL get-pip khusus 3.9 supaya jalur itu tetap aman.
+      - name: Patch MLflow get-pip URL (kompatibilitas python3.9)
+        run: |
+          DOCKER_UTILS=$(python -c "import mlflow.models.docker_utils as m; print(m.__file__)")
+          echo "Patching $DOCKER_UTILS"
+          sed -i 's|https://bootstrap.pypa.io/get-pip.py|https://bootstrap.pypa.io/pip/3.9/get-pip.py|g' "$DOCKER_UTILS"
+          grep -n "get-pip.py" "$DOCKER_UTILS"
+
+      # 9c) Tampilkan Dockerfile yang akan dipakai (debug base image)
+      - name: Preview generated Dockerfile
+        run: |
+          mlflow models generate-dockerfile \
+            --model-uri "runs:/$RUN_ID/model" \
+            --env-manager local \
+            -d /tmp/docker_ctx
+          echo "----- Dockerfile -----"
+          head -25 /tmp/docker_ctx/Dockerfile
+
       # 10) Build Docker image dari model MLflow
+      #     --env-manager local -> base image tetap python:3.12.7-slim
+      #     (tanpa flag ini MLflow memaksa base ubuntu:20.04 + pyenv)
       - name: Build Docker Model
         run: |
           mlflow models build-docker \
